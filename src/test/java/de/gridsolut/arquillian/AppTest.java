@@ -39,6 +39,7 @@ public class AppTest {
     public void testTrue(@ArquillianResource URL deploymentURL) {
         System.out.println("URL: " + deploymentURL);
         this.driver.get(deploymentURL.toExternalForm());
+        System.out.println("Page title is: " + driver.getTitle());
     }
 
     @Test
