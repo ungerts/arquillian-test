@@ -2,18 +2,24 @@ package de.gridsolut.arquillian;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.spring.integration.test.annotation.SpringAnnotationConfiguration;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.archive.importer.MavenImporter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.net.URL;
 
 @RunWith(Arquillian.class)
+@SpringAnnotationConfiguration(classes = {TestConfiguration.class})
 public class AppTest {
+
+    @Autowired
+    private DomainObject domainObject;
 
     @Deployment
     public static WebArchive createDeployment() {
@@ -30,6 +36,11 @@ public class AppTest {
             e.printStackTrace();
         }
         Assert.assertTrue(true);
+    }
+
+    @Test
+    public void testDefaultDomainObject() {
+        Assert.assertEquals(1, this.domainObject.getId());
     }
 
 
