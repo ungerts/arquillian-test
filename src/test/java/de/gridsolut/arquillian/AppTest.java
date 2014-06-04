@@ -36,10 +36,11 @@ public class AppTest {
 
     @Test
     @RunAsClient
-    public void testTrue(@ArquillianResource URL deploymentURL) {
+    public void testPageTitle(@ArquillianResource URL deploymentURL) {
         System.out.println("URL: " + deploymentURL);
         this.driver.get(deploymentURL.toExternalForm());
         System.out.println("Page title is: " + driver.getTitle());
+        Assert.assertEquals("Test", driver.getTitle());
     }
 
     @Test
