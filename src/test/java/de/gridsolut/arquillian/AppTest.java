@@ -1,15 +1,21 @@
 package de.gridsolut.arquillian;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.spring.integration.test.annotation.SpringAnnotationConfiguration;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.archive.importer.MavenImporter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.net.URL;
 
 @RunWith(Arquillian.class)
 @SpringAnnotationConfiguration(classes = {TestConfiguration.class})
@@ -17,6 +23,9 @@ public class AppTest {
 
     @Autowired
     private DomainObject domainObject;
+
+    @Drone
+    WebDriver driver;
 
     @Deployment
     public static WebArchive createDeployment() {
@@ -26,13 +35,10 @@ public class AppTest {
     }
 
     @Test
-    public void testTrue() {
-        try {
-            Thread.sleep(20000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Assert.assertTrue(true);
+    @RunAsClient
+    public void testTrue(@ArquillianResource URL deploymentURL) {
+        System.out.println("URL: " + deploymentURL);
+        this.driver.get(deploymentURL.toExternalForm());
     }
 
     @Test
