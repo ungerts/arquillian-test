@@ -4,6 +4,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.maven.archive.importer.MavenImporter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,11 +17,9 @@ public class AppTest {
 
     @Deployment
     public static WebArchive createDeployment() {
-        Class klass = org.slf4j.spi.LocationAwareLogger.class;
-        URL location = klass.getResource('/'+klass.getName().replace('.', '/')+".class");
-        System.out.println(location);
-        ShrinkWrap.create(WebArchive.class);
-        return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/arquillian-test.war"));
+        WebArchive webArchive = ShrinkWrap.create(MavenImporter.class).loadPomFromFile("pom.xml").importBuildOutput().as(WebArchive.class);
+        System.out.println("Generated " + webArchive.getName());
+        return webArchive;
     }
 
     @Test
