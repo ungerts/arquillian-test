@@ -11,9 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.File;
-import java.net.URL;
-
 @RunWith(Arquillian.class)
 @SpringAnnotationConfiguration(classes = {TestConfiguration.class})
 public class AppTest {
